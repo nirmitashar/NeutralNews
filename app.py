@@ -16,6 +16,7 @@ def index():
 @app.route("/topicapi", methods=["GET","POST"])
 def topicapi():
     req = str(request.get_data())
+    print(req[2:-1])
     #change api key if it runs out
     newsapi = NewsApiClient(api_key='9e56db8fef8946e59cc0545db2d90fa4')
     # /v2/top-headlines
@@ -23,7 +24,7 @@ def topicapi():
 #    top_headlines = newsapi.get_top_headlines(q='politics', language='en',
             #                                    category='general')
     # /v2/everything
-    all_articles = newsapi.get_everything(q='dog',
+    all_articles = newsapi.get_everything(q=req[2:-1],
                                           language='en',
                                           sort_by='relevancy')
 
@@ -34,29 +35,6 @@ def topicapi():
 
     print("The request: " + req)
 
-    if (req == "b'politics'"):
-        print("we are in general")
-        all_articles = newsapi.get_everything(q='politics',
-                                              language='en',
-                                              sort_by='relevancy')
-    elif (req == "b'healthcare'"):
-        print("we are in healthcare")
-
-        all_articles = newsapi.get_everything(q='healthcare',
-                                              language='en',
-                                              sort_by='relevancy')
-    elif (req == "b'gun control'"):
-        print("we are in guncontrol")
-
-        all_articles = newsapi.get_everything(q='gun control',
-                                              language='en',
-                                              sort_by='relevancy')
-    elif (req=="b'immigration'"):
-        print("we are in immigration")
-
-        all_articles = newsapi.get_everything(q='immigration',
-                                              language='en',
-                                              sort_by='relevancy')
 
     length = 0
     count = 0
@@ -72,11 +50,14 @@ def topicapi():
          #print(counttrans)
          tfidftrans  = tfidf.transform(counttrans)
          x = clf.predict(tfidftrans)
-         print(x)
-         if (x == 0):
+         print(type(x))
+         if (x == [0]):
+
+             print("X is " + str(x))
              if (len(conservative) < 3):
                 conservative.append(length)
-         elif (x == 1):
+         elif (x == [1]):
+             print("X is " + str(x))
              if (len(liberal) < 3):
                 liberal.append(length)
          #print(all_articles['articles'][length])
