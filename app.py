@@ -60,9 +60,7 @@ def topicapi():
          length = length + 1
          count = len(liberal) + len(conservative)
 
-    urls = []
-    images = []
-    titles = []
+   
     r = []
     for i in range(0,3):
       r.append(all_articles['articles'][liberal[i]]['url'])

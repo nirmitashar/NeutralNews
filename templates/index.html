@@ -127,7 +127,6 @@ img{
 bustdown("politics")
 function bustdown(topic) {
   console.log(topic)
-  setTimeout(function(){
   console.log(topic)
   var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
         $.ajax({
@@ -136,16 +135,16 @@ function bustdown(topic) {
           data: topic,
           success: function(data){
             console.log("length:" + data.length)
-            // libCol.libs = []
-            // consCol.cons = []
-            for(var i = 0; i<=(data.length/2 - 1); i+=3){
+            libCol.libs = []
+             consCol.cons = []
+            for(var i = 0; i<data.length/2; i+=3){
               console.log(i)
               var card_info = new article(data[i],data[i+1],data[i+2])
               libCol.libs.push(card_info)
              console.log(libs)
 
             }
-            for(var i = 9; i<=(data.length-1); i+=3){
+            for(var i = 9; i<data.length; i+=3){
               console.log(i)
               var card_info = new article(data[i],data[i+1],data[i+2])
               consCol.cons.push(card_info)
@@ -155,7 +154,7 @@ function bustdown(topic) {
           }
 
         });
-      },30)
+
 }
 
 Vue.component('card', {
