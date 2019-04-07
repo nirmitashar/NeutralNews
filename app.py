@@ -4,11 +4,9 @@ from joblib import load
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 import urllib.request as urllib2
 from bs4 import BeautifulSoup
-from newsapi import NewsApiClient
 import pickle
 from flask import jsonify
-
-
+from newsapi import NewsApiClient
 app = Flask(__name__)
 @app.route("/")
 def index():
@@ -19,11 +17,7 @@ def topicapi():
     print(req[2:-1])
     #change api key if it runs out
     newsapi = NewsApiClient(api_key='9e56db8fef8946e59cc0545db2d90fa4')
-    # /v2/top-headlines
-
-#    top_headlines = newsapi.get_top_headlines(q='politics', language='en',
-            #                                    category='general')
-    # /v2/everything
+    
     all_articles = newsapi.get_everything(q=req[2:-1],
                                           language='en',
                                           sort_by='relevancy')
@@ -49,15 +43,16 @@ def topicapi():
          counttrans = count_vec.transform(description)
          #print(counttrans)
          tfidftrans  = tfidf.transform(counttrans)
-         x = clf.predict(tfidftrans)
-         print(type(x))
-         if (x == [0]):
+         y = clf.predict(tfidftrans)
+         print(type(y))
+         if (y == [0]):
 
-             print("X is " + str(x))
+             print("y is " + str(y))
              if (len(conservative) < 3):
                 conservative.append(length)
-         elif (x == [1]):
-             print("X is " + str(x))
+
+         elif (y == [1]):
+             print("y is " + str(y))
              if (len(liberal) < 3):
                 liberal.append(length)
          #print(all_articles['articles'][length])
@@ -65,38 +60,22 @@ def topicapi():
          length = length + 1
          count = len(liberal) + len(conservative)
 
+    urls = []
+    images = []
+    titles = []
+    r = []
+    for i in range(0,3):
+      r.append(all_articles['articles'][liberal[i]]['url'])
+      r.append(all_articles['articles'][liberal[i]]['urlToImage'])
+      r.append(all_articles['articles'][liberal[i]]['title'])
+    
+    for i in range(0,3):
+      r.append(all_articles['articles'][conservative[i]]['url'])
+      r.append(all_articles['articles'][conservative[i]]['urlToImage'])
+      r.append(all_articles['articles'][conservative[i]]['title'])
 
-    url1 = all_articles['articles'][liberal[0]]['url']
-    image1 = all_articles['articles'][liberal[0]]['urlToImage']
-    title1 = all_articles['articles'][liberal[0]]['title']
-
-    url2 = all_articles['articles'][liberal[1]]['url']
-    image2 = all_articles['articles'][liberal[1]]['urlToImage']
-    title2 = all_articles['articles'][liberal[1]]['title']
-
-    url3 = all_articles['articles'][liberal[2]]['url']
-    image3 = all_articles['articles'][liberal[2]]['urlToImage']
-    title3 = all_articles['articles'][liberal[2]]['title']
-
-    url4 = all_articles['articles'][conservative[0]]['url']
-    image4 = all_articles['articles'][conservative[0]]['urlToImage']
-    title4 = all_articles['articles'][conservative[0]]['title']
-
-    url5 = all_articles['articles'][conservative[1]]['url']
-    image5 = all_articles['articles'][conservative[1]]['urlToImage']
-    title5 = all_articles['articles'][conservative[1]]['title']
-
-    url6 = all_articles['articles'][conservative[2]]['url']
-    image6 = all_articles['articles'][conservative[2]]['urlToImage']
-    title6 = all_articles['articles'][conservative[2]]['title']
-
-    #print(all_articles['articles'][0])
-    #print(all_articles['articles'][0]['author'])
-    #x =  len(all_articles['articles'])
-    #print(x)
-    #print( len(all_articles))
-    r = [url1, image1, title1, url2, image2, title2,url3, image3, title3, url4, image4, title4, url5, image5, title5, url6, image6, title6]
-
+ 
+    
     return jsonify(r)
     #while (length < len(all_articles['articles'])):
     #     print(all_articles['articles'][length])
