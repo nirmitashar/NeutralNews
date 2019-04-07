@@ -14,6 +14,9 @@
 
 <!-- Wide card with share menu button -->
 <style>
+
+
+
 .demo-card-wide.mdl-card {
   width: 512px;
 }
@@ -23,21 +26,17 @@
   width: 512px;
   //background: url('') center / cover;
 }
-
 img{
   height: 256px;
   width: 512px;
 }
-
 .demo-card-wide > .mdl-card__menu {
   color: #fff;
 }
-
 .dropdown {
   position: relative;
   display: inline-block;
 }
-
 .dropdown-content {
   display: none;
   position: absolute;
@@ -46,7 +45,6 @@ img{
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
-
 .dropdown-content a {
   color: black;
   padding: 12px 16px;
@@ -54,7 +52,6 @@ img{
   display: block;
   width: 470px;
 }
-
 .dropbtn {
   background-color: #4CAF50; /* Green */
   border: none;
@@ -66,11 +63,8 @@ img{
   font-size: 24px;
   width: 500px;
 }
-
 .dropdown-content a:hover {background-color: #ddd;}
-
 .dropdown:hover .dropdown-content {display: block;}
-
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 </style>
 </head>
@@ -78,6 +72,22 @@ img{
 
 
 <center><h2>Synthesis</h2></center>
+
+<!-- Expandable Textfield -->
+<center><form action="#" onsubmit="myFunction()">
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+    <label class="mdl-button mdl-js-button mdl-button--icon" for="sample6">
+      <i class="material-icons">search</i>
+    </label>
+    <div class="mdl-textfield__expandable-holder">
+      <input class="mdl-textfield__input" type="text" type="submit" id="sample6">
+      <label class="mdl-textfield__label" for="sample-expandable">Expandable Input</label>
+    </div>
+  </div>
+</form></center>
+
+
+</div></center>
 
 <center><div class="dropdown">
   <button class="dropbtn"> News Categories </button>
@@ -124,6 +134,14 @@ img{
    this.image = image;
    this.title = title;
  }
+
+function myFunction()
+{
+  var x = document.getElementById("sample6").value
+  console.log(x)
+  bustdown(x)
+}
+
 bustdown("politics")
 function bustdown(topic) {
   console.log(topic)
@@ -142,7 +160,6 @@ function bustdown(topic) {
               var card_info = new article(data[i],data[i+1],data[i+2])
               libCol.libs.push(card_info)
              console.log(libs)
-
             }
             for(var i = 9; i<data.length; i+=3){
               console.log(i)
@@ -150,21 +167,15 @@ function bustdown(topic) {
               consCol.cons.push(card_info)
               console.log(cons)
             }
-
           }
-
         });
-
 }
-
 Vue.component('card', {
   props: ['card_info'],
   delimiters : ['[[', ']]'],
   template: `
-
 <div class="card">
   <div class="demo-card-wide mdl-card mdl-shadow--2dp">
-
   <div class="mdl-card__title">
     <img v-bind:src="card_info.image">
   </div>
@@ -176,7 +187,6 @@ Vue.component('card', {
       Read More
     </a>
   </div>
-
 </div>
 <br/>
 </div>
@@ -194,8 +204,6 @@ consCol = new Vue ({
     cons: []
   }
 })
-
-
 </script>
 </body>
 </html>
