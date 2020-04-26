@@ -16,3 +16,6 @@ Uses https://getmdl.io/ for CSS
 Demo:   
 http://sanguinesocialist.pythonanywhere.com/  
 https://synthesized.herokuapp.com
+
+Note: 
+This is not very accurate as the newsapi only gives reporting and not opinion news. The assumption that speeches from Democrats are autmoatically liberal and Republicans are conservative is also likely not a great measure. Furthermore the model only had around 60% accuracy when classifiying republican/democrat speeches. This was a hackathon project that served well as proof of concept and was a very fun learning experience.
